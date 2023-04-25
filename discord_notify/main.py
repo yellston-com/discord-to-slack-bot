@@ -14,30 +14,20 @@ client = discord.Client(intents=intents)
 
 
 def send_slack_webhook_event(webhook_url: str, event_type: str, username: str, vcname: str, user_icon_url: str):
-    content = f"User {event_type} a voice channel on Discord"
+    content = f"{username} {event_type} the voice channel \"{vcname}\" on Discord"
     color = "#36a64f" if event_type == "joined" else "#a63636" # join or left
 
     attachments = [
         {
-            "fallback": f"User {event_type} a voice channel",
+            "fallback": f"User {event_type} a voice channel on Discord",
             "color": color,
-            "author_name": username,
-            "author_icon": user_icon_url,
-            "fields": [
-                {
-                    "title": "Voice Channel",
-                    "value": vcname,
-                    "short": False
-                }
-            ],
-            "footer": "Discord App",
-            "footer_icon": "https://cdn.icon-icons.com/icons2/2108/PNG/512/discord_icon_130958.png",
-            "ts": int(datetime.now().timestamp()),
-            # "thumb_url": user_icon_url
+            "text": content,
+            "footer": f"{username}",
+            "footer_icon": user_icon_url,
+            "ts": int(datetime.now().timestamp())
         }
     ]
     payload = {
-        "text": content,
         "attachments": attachments
     }
     headers = {
