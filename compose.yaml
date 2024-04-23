@@ -5,3 +5,4 @@ services:
       context: .
       dockerfile: Dockerfile
     tty: true
+    restart: always
